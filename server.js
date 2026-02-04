@@ -6,6 +6,7 @@ import "dotenv/config";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
 // Clé secrète pour signer les tokens JWT
 const SECRET_KEY = "ma_cle_secrete_super_longue_123";
 
@@ -14,6 +15,11 @@ const users = [];
 
 // Middleware pour parser le JSON
 app.use(express.json());
+
+app.get('/', (req, res) => {
+
+    res.send('<h1>Bienvenue sur l\'API</h1>');
+});
 
 // ========================
 // POST /api/register
@@ -72,11 +78,11 @@ app.post("/api/login", async (req, res) => {
 
     res.json({ message: "Connexion réussie", token });
 });
-
 // ========================
-// Middleware d'authentification
+// Middleware d'autorisation
 // ========================
 function authenticateToken(req, res, next) {
+
     // Récupérer le header Authorization: "Bearer <token>"
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
